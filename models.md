@@ -1,7 +1,5 @@
 # Flomta entities
 
-## Business entities
-
 ### Account
 
 [Account](/models.md#Account) is a primary level business entity. An account is a dividing entity separating logical 
@@ -60,9 +58,9 @@ Apartment belongs to one [Building](models.md#building). Apartment has [Meters](
 ### Meter
 
 Meter refers to the main remote devices that actually do the physical data measurement of [Medium](models.md#medium) 
-consumption. A Meter always belongs to an [Apartment](models.md#apartment). Some meters can refer to specific building
-main input meters (_is_main_) measuring the whole building. Also in such case an Apartment is needed (eg "main") to be 
-related to. A meter always belongs to a [device](models.md#device).
+consumption. A Meter always belongs to an [Apartment](models.md#apartment). Some meters can refer to specific 
+[Building](models.md#building) main input meters (_is_main_) measuring the whole building. Also in such case an 
+Apartment is needed (eg "main") to be related to. A meter always belongs to a [device](models.md#device).
 
 A main meter can be used for further analysis (eg comparison to individual meter's consumption aggregated sum). 
 
@@ -81,15 +79,15 @@ starting point.
 
 Meter's Medium is defined by a [Meter model](models.md#meter-model).
 
-One physical Meter can contain readings data for multiple physical mediums. Eg cold AND hot water. Daily AND nightly 
+One physical Meter can contain readings data for multiple physical [Mediums](models.md#medium). Eg cold AND hot water. Daily AND nightly 
 electricity. And or combinations of multiple Mediums, eg 2 waters + heat etc. In such case each Medium is #mapped# as 
 separate "logical" Meter. Logical meters share the same serial identification number, the logical distinction is done
-via _position_ and _position_name_. 
+via _position_ and _position_name_. Typically, there could be up to 4 positions in a data record. 
 
 In general Meter's serial number is not globally unique. It is only unique in one building context.  
 
-The identification of how to decode relevant data from raw device data is done based on:
-- [device type](models.md#device-type): specifying the general data format (bin/CSV/xml)
+The identification of how to decode relevant data from a raw device data is done based on:
+- [device type](models.md#device-type): specifying the general data format (bin/CSV/xml). Determining how to read raw data records from a file.
 - CURRENTLY: parsed based on the record profile
 - FUTURE (needs implementing): based on pre-defined [Record Type](models.md#record-type)
 
@@ -101,7 +99,50 @@ bathroom" etc. The Meter Models are defined on Account level.
 
 ### Period
 
+Flomta deals with time-series data for [readings](models.md#reading). Each [reading](models.md#reading) has a Period.
+Currently, a Period means a monthly time-frame. Readings of _one_ period and _one_ [Device](models.md#device)
+are aggregated into a [Report](models.md#report). 
+
+Readings of a Period are typically done by [Devices](models.md#device) on the last or first days of a period (month). 
+Flomta will regard the data stamped before 20th day of month as "previous month's data" and data stamped after 
+20th dat of month as "current/latest months data". 
+
+### Readings File
+
+Readings File entity describes the actual physical file delivered by the [Device](models.md#device) containing the
+[meter's](models.md#meter) initial raw data of [readings](models.md#reading). Readings file is always linked to a
+[Device](models.md#device) and a [period](models.md#period). 
+
+Flomta will store the status of the file, the initial processing timestamp as well as a reference of the path of the 
+actual file in the FileStorage where the files are stored for archiving purposes. 
+
+### Readings File Import
+
+Readings File Import refers to _one_ attempted rea/import of one [Readings File](models.md#readings-file). Any
+[Readings File](models.md#readings-file) might be tried for processing multiple times. 
+
+Readings File Import wil store the timestamp and the number of various records included in the reading process eg: 
+- total records in the file
+- valid records
+- calculated records
+- duplicate records
+- failed records
+
 ### Reading
+
+A Reading refers to the data from _one_ (logical) [Meter](models.md#meter) for _one_ [period](models.md#period). Reading 
+stores the reported _value_ of the [Meter](models.md#meter) and _consumption_ which is the difference of two sequential 
+reading values. 
+
+Reading can be also calculated (if missing) or adjusted manually, see [Reading Type](models.md#reading-type). 
+
+Reading stores the initial raw data data record as hexData or json (csv, xml), as well as the 
+[Record Type](models.md#record-type) at the time of reading (since it might change over time).
+
+A reading might need human attention (_needs_attention_) if some #logical checks# fail. 
+
+### Reading Type
+
 
 ### Report
 
