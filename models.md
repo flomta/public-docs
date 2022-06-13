@@ -149,10 +149,10 @@ A reading might need human attention (_needs_attention_) if some #logical checks
 
 Reading can be a) actual b) calculated or c) manual. 
 
-Most of the readings typically are "actual" which are tha actual values delivered by the [Device](models.md#device) and the
-[Readings File](models.md#readings-file). In some cases the actual data for a [Meter](models.md#meter) is missing. A missing 
-data could be a result of a failure in the physical meter or the radio signals delivering the data between a meter and a
-[Device](models.md#device) or various other reasons. 
+Most of the readings typically are "actual" which are tha actual values delivered by the [Device](models.md#device) and
+the [Readings File](models.md#readings-file). In some cases the actual data for a [Meter](models.md#meter) is missing. A 
+missing data could be a result of a failure in the physical [Meter](models.md#meter) or the radio signals delivering the
+data between a [Meter](models.md#meter) and a [Device](models.md#device) or various other reasons. 
 
 In many cases if the missing reading is temporary, the missing value of the meter at that point of time could be 
 calculated using the context information (eg previous readings from the same meter, data from similar meters etc.).
@@ -165,7 +165,7 @@ reading type will be referred as "manual".
 ### Report
 
 A Report is a main reportable entity to the end users. A report aggregates _one_ [Building](models.md#building) reportable 
-data [Device](models.md#device)
+data of _one_ [Device](models.md#device) for _one_ [Period](models.md#period).
 
 ### Collector
 
