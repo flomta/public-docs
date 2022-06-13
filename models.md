@@ -4,8 +4,9 @@
 
 ### Account
 
-[Account](/###Account) is a primary level business entity. An account is a dividing entity separating logical access between different accounts. 
-All [business entities](/##business-entities) down the tree _belong_ to _one_ [Account](/models###Account). An User can be part of multiple Accounts via being an [AccountManager](###AccountManager). 
+[Account](/models.md#Account) is a primary level business entity. An account is a dividing entity separating logical 
+access between different accounts. All [business entities](/models.md#business-entities) down the tree _belong_ to _one_ 
+[Account](/models.md#Account). An [User](models.md#user) can be part of multiple Accounts via being an [AccountManager](/models.md#AccountManager). 
 
 ### AccountManager
 ....
