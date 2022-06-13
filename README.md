@@ -3,6 +3,6 @@ Flomta application public documentation
 
 
 # Entities
-[Entities](/models)
+[Entities](/models.md)
 
 whaat ??+
