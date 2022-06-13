@@ -116,6 +116,10 @@ Readings File entity describes the actual physical file delivered by the [Device
 Flomta will store the status of the file, the initial processing timestamp as well as a reference of the path of the 
 actual file in the FileStorage where the files are stored for archiving purposes. 
 
+Typically, one [Device](models.md#device) will deliver _multiple_ Readings Files for one [period](models.md#period) for 
+processing. It is common for the first files to miss some data for a selection of [meters](models.md#meter) and the 
+later files have additional data frames on the [meters](models.md#meter) missed in first files. 
+
 ### Readings File Import
 
 Readings File Import refers to _one_ attempted rea/import of one [Readings File](models.md#readings-file). Any
@@ -131,8 +135,8 @@ Readings File Import wil store the timestamp and the number of various records i
 ### Reading
 
 A Reading refers to the data from _one_ (logical) [Meter](models.md#meter) for _one_ [period](models.md#period). Reading 
-stores the reported _value_ of the [Meter](models.md#meter) and _consumption_ which is the difference of two sequential 
-reading values. 
+stores the reported _value_ of the [Meter](models.md#meter) and _consumption_ which is the difference of two sequential
+[period](models.md#period) reading values. 
 
 Reading can be also calculated (if missing) or adjusted manually, see [Reading Type](models.md#reading-type). 
 
@@ -143,8 +147,25 @@ A reading might need human attention (_needs_attention_) if some #logical checks
 
 ### Reading Type
 
+Reading can be a) actual b) calculated or c) manual. 
+
+Most of the readings typically are "actual" which are tha actual values delivered by the [Device](models.md#device) and the
+[Readings File](models.md#readings-file). In some cases the actual data for a [Meter](models.md#meter) is missing. A missing 
+data could be a result of a failure in the physical meter or the radio signals delivering the data between a meter and a
+[Device](models.md#device) or various other reasons. 
+
+In many cases if the missing reading is temporary, the missing value of the meter at that point of time could be 
+calculated using the context information (eg previous readings from the same meter, data from similar meters etc.).
+
+In such distinct cases the reading value will be calculated and the reading is flagged with a "calculated" type flag. 
+
+In some rare cases the actual or calculated reading needs to be adjusted manually. After the manual calculation, the 
+reading type will be referred as "manual". 
 
 ### Report
+
+A Report is a main reportable entity to the end users. A report aggregates _one_ [Building](models.md#building) reportable 
+data [Device](models.md#device)
 
 ### Collector
 
