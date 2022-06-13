@@ -23,10 +23,14 @@ for one [Account](/models.md#Account). Company has [Company admins](models.md#Us
 [Notifications](models.md#notification) for the [reports](models.md#report) containing the [period](models.md#period) 
 [readings](models.md#reading). 
 
+A Company can be deactivated (_status_id_). Deactivated Company will not be processed for new data or notifications etc.
+
 ### Building
 
-Building typically represents one physical building containing a [central collecting device](models.md#device) and multiple 
-[Apartments](models.md#apartment). 
+Building typically represents one physical building containing a [central collecting device](models.md#device) and 
+multiple [Apartments](models.md#apartment). 
+
+Building belongs to one [Company](models.md#company).
 
 ### Device
 
@@ -51,9 +55,26 @@ all Accounts make use of all device Types. A device Model configures one Device 
 
 ### Apartment
 
-
+Apartment belongs to one [Building](models.md#building). Apartment has [Meters](models.md#meter). 
 
 ### Meter
+
+Meter refers to the main remote devices that actually do the physical data measurement of [Medium](models.md#medium) 
+consumption. A Meter always belongs to an [Apartment](models.md#apartment). Some meters can refer to specific building
+main input meters (_is_main_) measuring the whole building. Also in such case an Apartment is needed (eg "main") to be 
+related to. A meter always belongs to a [device](models.md#device).
+
+A main meter can be used for further analysis (eg comparison to individual meter's consumption aggregated sum). 
+
+A meter (eg main) can be connected to an external API for communicating with a [Medium](models.md#medium)
+[Provider](models.md#provider) ([API](models.md#provider-api) ) or e-mail) delivering provider 
+[Notification](models.md#notification) data to external systems. 
+
+A Meter can sometimes be installed (by accident) backwards (_is_flipped_). 
+
+A meter can be deactivated (_active_).
+
+The raw medium Readings data will be processed and stored in Flomta as [readings](models.md#reading).  
 
 ### Period
 
@@ -68,3 +89,13 @@ all Accounts make use of all device Types. A device Model configures one Device 
 ### User
 
 ### UserHasCompany
+
+### Medium
+
+### Provider
+
+### Provider API
+
+### Record Type
+
+
