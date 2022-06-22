@@ -187,4 +187,5 @@ https://m-bus.com/documentation-wired/08-appendix
 
 ### Record Type
 
+### UserHasAccount
 
